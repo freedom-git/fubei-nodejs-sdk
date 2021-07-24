@@ -1,6 +1,10 @@
 export declare class OpenApi {
-    $gateway: string;
-    $appSecret: string;
+    private readonly vendor_sn;
+    private readonly appSecret;
+    private $gateway;
+    private $appSecret;
+    private vendorSn;
+    constructor(vendor_sn: string, appSecret: string);
     /**
      * 生成提交结果参数
      * @param $commonData 公共参数

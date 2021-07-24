@@ -40,10 +40,14 @@ exports.OpenApi = void 0;
 var crypto = require("crypto");
 var https = require("https");
 var OpenApi = /** @class */ (function () {
-    function OpenApi() {
+    function OpenApi(vendor_sn, appSecret) {
+        this.vendor_sn = vendor_sn;
+        this.appSecret = appSecret;
         this.$gateway = 'https://shq-api.51fubei.com/gateway/agent';
-        //2021070910203210063a
-        this.$appSecret = 'b4dbce977e041c0bbc2181ac49b7021a';
+        this.$appSecret = '';
+        this.vendorSn = '';
+        this.vendorSn = vendor_sn;
+        this.$appSecret = appSecret;
     }
     /**
      * 生成提交结果参数
@@ -59,6 +63,13 @@ var OpenApi = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        $commonData = Object.assign({
+                            'vendor_sn': this.vendorSn,
+                            'nonce': String(Date.now() + Math.floor(Math.random() * 1000000)),
+                            "format": "json",
+                            "sign_method": "md5",
+                            "version": "1.0"
+                        }, $commonData);
                         $commonData['biz_content'] = JSON.stringify($bizContent);
                         $commonData['sign'] = this.getSign($commonData);
                         _a.label = 1;

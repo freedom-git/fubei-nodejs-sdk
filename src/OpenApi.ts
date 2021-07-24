@@ -9,9 +9,13 @@ export class OpenApi {
 
     private $appSecret='';
 
+    private vendorSn='';
+
     constructor(
+        private readonly vendor_sn: string,
         private readonly appSecret: string
     ) {
+        this.vendorSn = vendor_sn;
         this.$appSecret = appSecret;
 	}
 
@@ -23,6 +27,13 @@ export class OpenApi {
      * @throws Exception
      */
     async actionApi($commonData,$bizContent={}){
+        $commonData = Object.assign({
+            'vendor_sn':this.vendorSn,
+			'nonce':String(Date.now()+Math.floor(Math.random()*1000000)),
+			"format": "json",
+			"sign_method": "md5",
+			"version": "1.0"
+        },$commonData)
         $commonData['biz_content']=JSON.stringify($bizContent);
         $commonData['sign'] = this.getSign($commonData);
         try{
